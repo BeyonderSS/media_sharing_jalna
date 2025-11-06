@@ -170,38 +170,12 @@ export default function TempPlayerPage({ params }: { params: Promise<{ shareLink
               <div className="p-6 sm:p-12 text-center">
                 <p className="text-white mb-3 sm:mb-4 text-base sm:text-lg break-words px-4">{media.title}</p>
                 <p className="text-white/70 mb-4 sm:mb-6 text-sm sm:text-base">{media.mimeType}</p>
-                <Button onClick={() => window.open(mediaUrl, "_blank")} className="gap-2">
-                  <Download className="w-4 h-4" />
-                  Download File
-                </Button>
               </div>
             )}
           </div>
         </Card>
 
-        <Card className="mt-4 sm:mt-6 p-4 sm:p-6">
-          <h2 className="text-xl sm:text-2xl font-bold mb-2 break-words">{media.title}</h2>
-          <div className="flex flex-wrap gap-4 sm:gap-6 text-xs sm:text-sm mt-3 sm:mt-4">
-            <div>
-              <p className="text-muted-foreground">File Size</p>
-              <p className="font-semibold">{formatFileSize(media.size)}</p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">Type</p>
-              <p className="font-semibold break-all">{media.mimeType}</p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">Uploaded</p>
-              <p className="font-semibold">{new Date(media.createdAt).toLocaleDateString()}</p>
-            </div>
-          </div>
-          <div className="mt-3 sm:mt-4">
-            <Button onClick={() => window.open(mediaUrl, "_blank")} variant="outline" className="gap-2 w-full sm:w-auto">
-              <Download className="w-4 h-4" />
-              Download
-            </Button>
-          </div>
-        </Card>
+       
       </div>
 
       {/* Password Dialog */}
