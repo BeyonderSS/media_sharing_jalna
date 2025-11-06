@@ -125,7 +125,7 @@ export const createShareLink = async (req, res, next) => {
 export const accessShareLink = async (req, res, next) => {
   try {
     const { shareLinkId } = req.params;
-    const { password } = req.query;
+    // const { password } = req.query;
 
     // Find share link by the documentId (which is the _id)
     const shareLink = await ShareLink.findById(shareLinkId);
@@ -148,16 +148,16 @@ export const accessShareLink = async (req, res, next) => {
       });
     }
 
-    // Check password if required
-    if (shareLink.password) {
-      if (!password || password !== shareLink.password) {
-        return res.status(401).json({
-          error: {
-            message: 'Invalid or missing password'
-          }
-        });
-      }
-    }
+    // // Check password if required
+    // if (shareLink.password) {
+    //   if (!password || password !== shareLink.password) {
+    //     return res.status(401).json({
+    //       error: {
+    //         message: 'Invalid or missing password'
+    //       }
+    //     });
+    //   }
+    // }
 
     // Get the associated media
     const media = await Media.findById(shareLink.mediaId);
