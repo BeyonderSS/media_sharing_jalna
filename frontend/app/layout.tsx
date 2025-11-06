@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 const navLinks = [
   { href: "/", label: "Gallery" },
   { href: "/generator", label: "URL Generator" },
-  { href: "/player", label: "Video Player" },
 ]
 
 export default function RootLayout({
