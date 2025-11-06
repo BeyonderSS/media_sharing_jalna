@@ -17,6 +17,7 @@ export default function UploadForm({ onUpload, onCancel }: UploadFormProps) {
   const [title, setTitle] = useState("")
   const [file, setFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(0)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,17 +53,27 @@ export default function UploadForm({ onUpload, onCancel }: UploadFormProps) {
     }
 
     setUploading(true)
+    setUploadProgress(0)
     try {
-      const response = await api.uploadMedia(file, title || undefined)
+      const response = await api.uploadMedia(
+        file, 
+        title || undefined,
+        (progress) => {
+          setUploadProgress(progress)
+        }
+      )
       toast.success("Media uploaded successfully!")
       onUpload(response.data)
       setTitle("")
       setFile(null)
+      setUploadProgress(0)
       if (fileInputRef.current) {
         fileInputRef.current.value = ""
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to upload media")
+      const errorMessage = error instanceof Error ? error.message : "Failed to upload media"
+      toast.error(errorMessage)
+      setUploadProgress(0)
     } finally {
       setUploading(false)
     }
@@ -114,9 +125,23 @@ export default function UploadForm({ onUpload, onCancel }: UploadFormProps) {
                 <X className="w-4 h-4" />
               </Button>
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mb-2">
               {(file.size / 1024 / 1024).toFixed(2)} MB
             </p>
+            {uploading && (
+              <div className="w-full">
+                <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                  <span>Uploading...</span>
+                  <span>{Math.round(uploadProgress)}%</span>
+                </div>
+                <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                  <div
+                    className="bg-primary h-full transition-all duration-300 ease-out"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <>

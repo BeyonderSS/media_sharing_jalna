@@ -100,16 +100,61 @@ class MediaSharingAPI {
   }
 
   // Media methods
-  async uploadMedia(file: File, title?: string): Promise<{ message: string; data: Media }> {
-    const formData = new FormData();
-    formData.append('file', file);
-    if (title) {
-      formData.append('title', title);
-    }
+  async uploadMedia(
+    file: File, 
+    title?: string,
+    onProgress?: (progress: number) => void
+  ): Promise<{ message: string; data: Media }> {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      const formData = new FormData();
+      formData.append('file', file);
+      if (title) {
+        formData.append('title', title);
+      }
 
-    return this.request<{ message: string; data: Media }>('/api/media/upload', {
-      method: 'POST',
-      body: formData,
+      // Track upload progress
+      xhr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable && onProgress) {
+          const percentComplete = (e.loaded / e.total) * 100;
+          onProgress(percentComplete);
+        }
+      });
+
+      // Handle completion
+      xhr.addEventListener('load', () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const response = JSON.parse(xhr.responseText);
+            resolve(response);
+          } catch (error) {
+            reject(new Error('Failed to parse response'));
+          }
+        } else {
+          try {
+            const errorData = JSON.parse(xhr.responseText);
+            const error = new Error(errorData.error?.message || 'Upload failed');
+            (error as any).status = xhr.status;
+            (error as any).data = errorData;
+            reject(error);
+          } catch {
+            reject(new Error(`Upload failed with status ${xhr.status}`));
+          }
+        }
+      });
+
+      // Handle errors
+      xhr.addEventListener('error', () => {
+        reject(new Error('Network error during upload'));
+      });
+
+      xhr.addEventListener('abort', () => {
+        reject(new Error('Upload aborted'));
+      });
+
+      // Open and send request
+      xhr.open('POST', `${this.baseURL}/api/media/upload`);
+      xhr.send(formData);
     });
   }
 
