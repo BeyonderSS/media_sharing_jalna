@@ -265,7 +265,7 @@ export default function URLGeneratorPage() {
                           Expires: {formatDate(link.expiresAt)}
                         </p>
                         <p className="text-xs text-muted-foreground break-all sm:truncate mb-1">
-                          Short: {link.shortUrl || `${process.env.URL_SHORTNER_ENDPOINT || "https://url-shortner-personal-seven.vercel.app"}/${link.shortCode}`}
+                          Short: {link.shortUrl || `${process.env.NEXT_PUBLIC_URL_SHORTNER_ENDPOINT || "https://url-shortner-personal-seven.vercel.app"}/${link.shortCode}`}
                         </p>
                         <p className="text-xs text-muted-foreground break-all sm:truncate" title={link.shareUrl}>
                           Long: {link.shareUrl}
@@ -286,7 +286,7 @@ export default function URLGeneratorPage() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleCopyURL(link.shortUrl|| `${process.env.URL_SHORTNER_ENDPOINT || "https://url-shortner-personal-seven.vercel.app"}/${link.shortCode}`, link.id)}
+                          onClick={() => handleCopyURL(link.shortUrl|| `${process.env.NEXT_PUBLIC_URL_SHORTNER_ENDPOINT || "https://url-shortner-personal-seven.vercel.app"}/${link.shortCode}`, link.id)}
                           className="gap-1 sm:gap-2 bg-transparent text-xs sm:text-sm h-8 sm:h-9"
                         >
                           <Copy
