@@ -361,6 +361,7 @@ export const getShareLinksByMedia = async (req, res, next) => {
         shortCode: shareLink.shortCode,
         shareUrl: shareLink.shareUrl,
         hasPassword: !!shareLink.password,
+        password: shareLink.password, // Include the password
         expiresAt: shareLink.expiresAt,
         isExpired: isExpired,
         createdAt: shareLink.createdAt,
