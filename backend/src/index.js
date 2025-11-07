@@ -22,9 +22,9 @@ const startServer = async () => {
 
   // --- Middlewares ---
   app.use(cors());
-  // Increase body size limits for large file uploads (500MB)
-  app.use(express.json({ limit: '500mb' }));
-  app.use(express.urlencoded({ limit: '500mb', extended: true }));
+  // Increase body size limits for large file uploads (2GB)
+  app.use(express.json({ limit: '2gb' }));
+  app.use(express.urlencoded({ limit: '2gb', extended: true }));
 
   // --- API Documentation ---
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
