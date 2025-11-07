@@ -85,11 +85,29 @@ router.post("/upload", upload.single('file'), uploadMedia);
  * @swagger
  * /api/media:
  *   get:
- *     summary: Get all media with accessible URLs
+ *     summary: Get all media with accessible URLs, with pagination and search
  *     tags: [Media]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of items per page
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search term to filter media by title
  *     responses:
  *       200:
- *         description: List of all media
+ *         description: A paginated list of media
  *         content:
  *           application/json:
  *             schema:
@@ -99,6 +117,16 @@ router.post("/upload", upload.single('file'), uploadMedia);
  *                   type: string
  *                 count:
  *                   type: number
+ *                   description: Number of media items on the current page
+ *                 total:
+ *                   type: number
+ *                   description: Total number of media items matching the search criteria
+ *                 page:
+ *                   type: number
+ *                   description: Current page number
+ *                 pages:
+ *                   type: number
+ *                   description: Total number of pages
  *                 data:
  *                   type: array
  *                   items:

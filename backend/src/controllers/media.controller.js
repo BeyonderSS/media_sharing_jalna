@@ -54,7 +54,20 @@ export const uploadMedia = async (req, res, next) => {
  */
 export const getAllMedia = async (req, res, next) => {
   try {
-    const medias = await Media.find().sort({ createdAt: -1 });
+    const { page = 1, limit = 10, search = '' } = req.query;
+    const skip = (page - 1) * limit;
+
+    const query = {};
+    if (search) {
+      query.title = { $regex: search, $options: 'i' };
+    }
+
+    const medias = await Media.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await Media.countDocuments(query);
 
     const mediasWithUrls = medias.map(media => ({
       id: media._id,
@@ -68,6 +81,9 @@ export const getAllMedia = async (req, res, next) => {
     res.status(200).json({
       message: 'Media retrieved successfully',
       count: mediasWithUrls.length,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / limit),
       data: mediasWithUrls
     });
   } catch (error) {

@@ -7,7 +7,7 @@ const options = {
       version: '1.0.0',
       description: 'API documentation for the media_sharing_jalna application.',
     },
-    servers: [{ url: 'http://localhost:3000', description: 'Development server' }],
+    servers: [{ url: 'http://localhost:5000', description: 'Development server' }],
   },
   apis: ['./src/routes/*.js'],
 };

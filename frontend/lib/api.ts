@@ -158,8 +158,32 @@ class MediaSharingAPI {
     });
   }
 
-  async getAllMedia(): Promise<{ message: string; count: number; data: Media[] }> {
-    return this.request<{ message: string; count: number; data: Media[] }>('/api/media');
+  async getAllMedia(
+    page: number = 1,
+    limit: number = 10,
+    search: string = ''
+  ): Promise<{
+    message: string;
+    count: number;
+    total: number;
+    page: number;
+    pages: number;
+    data: Media[];
+  }> {
+    const params = new URLSearchParams();
+    params.append('page', String(page));
+    params.append('limit', String(limit));
+    if (search) {
+      params.append('search', search);
+    }
+    return this.request<{
+      message: string;
+      count: number;
+      total: number;
+      page: number;
+      pages: number;
+      data: Media[];
+    }>(`/api/media?${params.toString()}`);
   }
 
   getMediaFileUrl(id: string): string {
