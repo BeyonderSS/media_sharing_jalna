@@ -83,9 +83,14 @@ export default function MediaGallery({ items, onDelete, onGenerateLink, onPlayVi
                   />
                 ) : isVideo ? (
                   <>
-                    <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                      <Play className="w-10 h-10 sm:w-12 sm:h-12 text-primary fill-primary" />
-                    </div>
+                    <video
+                      src={api.getMediaFileUrl(item.id) + "#t=0.1"}
+                      className="w-full h-full object-cover"
+                      preload="metadata"
+                      muted
+                      playsInline
+                      disablePictureInPicture
+                    />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors">
                       <Play className="w-10 h-10 sm:w-12 sm:h-12 text-white fill-white" />
                     </div>
