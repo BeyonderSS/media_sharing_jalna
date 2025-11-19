@@ -153,9 +153,17 @@ export default function URLGeneratorPage() {
                         }}
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <p className="text-xs text-muted-foreground">{media.mimeType}</p>
-                      </div>
+                      <video
+                        src={api.getMediaFileUrl(media.id)}
+                        poster={api.getMediaFileUrl(media.id)}
+                        controls={false}
+                        preload="metadata"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = "/placeholder.svg"
+                          e.currentTarget.poster = "/placeholder.svg"
+                        }}
+                      />
                     )}
                   </div>
                   <p className="font-medium text-sm truncate">{media.title}</p>
