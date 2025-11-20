@@ -46,7 +46,7 @@ export default function GalleryPage() {
   const loadMedia = async () => {
     try {
       setLoading(true)
-      const response = await api.getAllMedia(currentPage, 10, debouncedSearchTerm)
+      const response = await api.getAllMedia(currentPage, 100, debouncedSearchTerm)
       setMediaItems(response.data)
       setTotalPages(response.pages || 1)
     } catch (error) {

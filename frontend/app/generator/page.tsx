@@ -63,7 +63,7 @@ export default function URLGeneratorPage() {
       const response = await api.getShareLinksByMedia(mediaId, {
         sortBy: "createdAt",
         sortOrder: "desc",
-      })
+        limit: 100,})
       setShareLinks(response.data.shareLinks)
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Failed to load share links")
