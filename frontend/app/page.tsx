@@ -57,11 +57,8 @@ export default function GalleryPage() {
   }
 
   const handleUpload = (media: Media) => {
-    // To keep it simple, we can reload the media to see the new upload.
-    // Or, if the API returns the new media on the current page, we could add it.
-    // For now, let's just reload.
+    setMediaItems((prevItems) => [media, ...prevItems])
     setIsUploadOpen(false)
-    loadMedia()
   }
 
   const handleDelete = (id: string) => {
