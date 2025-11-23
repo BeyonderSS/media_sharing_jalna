@@ -37,6 +37,7 @@ export default function MediaPlayerPage({ params }: { params: Promise<{ mediaId:
         setLoading(false)
         return
       } catch (shareError) {
+        console.log("Share link access error:", shareError) // Debugging line
         // If it's a 401, show password dialog
         if (shareError instanceof Error && shareError.message.includes("password")) {
           setShowPasswordDialog(true)
@@ -49,13 +50,15 @@ export default function MediaPlayerPage({ params }: { params: Promise<{ mediaId:
       // Try as regular media ID
       try {
         const allMedia = await api.getAllMedia()
-        const foundMedia = allMedia.data.find((m) => m.id === mediaId)
+        console.log(allMedia,"allmedoa")
+        const foundMedia = allMedia.data.find((m) => m.id == mediaId)
         if (foundMedia) {
           setMedia(foundMedia)
           setLoading(false)
           return
         }
       } catch (mediaError) {
+        console.log(mediaError)
         // Media not found
       }
 
@@ -76,6 +79,7 @@ export default function MediaPlayerPage({ params }: { params: Promise<{ mediaId:
       setPassword("")
       setLoading(false)
     } catch (err) {
+      console.log("Password submission error:", err) // Debugging line
       toast.error(err instanceof Error ? err.message : "Invalid password")
       setLoading(false)
     }
@@ -123,7 +127,7 @@ export default function MediaPlayerPage({ params }: { params: Promise<{ mediaId:
 
   const mediaType = getMediaType(media.mimeType)
   const mediaUrl = api.getMediaFileUrl(media.id)
-
+console.log(mediaUrl,"m,ediaUrl")
   return (
     <div className="p-4 sm:p-6 md:p-8">
       <div className="mb-4 sm:mb-6">

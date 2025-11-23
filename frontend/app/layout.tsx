@@ -69,7 +69,7 @@ export default function RootLayout({
 
   if (isLocked && !isTempPlayerPage) {
     return (
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning={true}>
         <body className="font-sans antialiased">
           <div className="flex h-screen items-center justify-center bg-background text-foreground p-4">
             <Card className="p-6 sm:p-8 md:p-12 text-center max-w-md w-full">

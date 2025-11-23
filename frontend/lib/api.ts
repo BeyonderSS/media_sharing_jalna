@@ -160,7 +160,7 @@ class MediaSharingAPI {
 
   async getAllMedia(
     page: number = 1,
-    limit: number = 10,
+    limit: number = 100,
     search: string = ''
   ): Promise<{
     message: string;
